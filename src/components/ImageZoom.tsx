@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
@@ -7,6 +7,7 @@ import { useGestures } from '../hooks/useGestures';
 import { useImageLayout } from '../hooks/useImageLayout';
 
 import type { ImageZoomProps } from '../types';
+import FastImage, { FastImageProps } from 'react-native-fast-image';
 
 const styles = StyleSheet.create({
   image: {
@@ -51,12 +52,16 @@ const ImageZoom: React.FC<ImageZoomProps> = ({
     onResetAnimationEnd,
   });
 
+  const AnimatedFastImage = Animated.createAnimatedComponent(
+    FastImage as FC<FastImageProps>
+  );
+
   return (
     <GestureDetector gesture={gestures}>
-      <Animated.Image
+      <AnimatedFastImage
         style={[styles.image, style, animatedStyle]}
-        source={{ uri }}
-        resizeMode="contain"
+        source={uri}
+        resizeMode="cover"
         onLayout={onImageLayout}
         {...props}
       />
